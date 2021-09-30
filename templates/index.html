@@ -1,0 +1,334 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CKT S.A.M</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/bootstrap.css') }}">
+    <script src="{{ url_for('static',filename='vue.js') }}"></script>
+    <script src="{{ url_for('static',filename='dist/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='dist/js/popper.js') }}"></script>
+    <script src="{{ url_for('static',filename='dist/js/bootstrap.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/libs/FileSaver/FileSaver.min.js') }}"></script>
+
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/libs/js-xlsx/xlsx.core.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/libs/jsPDF/jspdf.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/libs/html2canvas/html2canvas.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='export-table/tableExport.min.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='dist/js/bootstrap.js') }}"></script>
+</head>
+
+<body class="bg-light">
+
+<div class="container" id="app">
+    <div class="py-5 d-print-none text-center">
+        <img class="d-block mx-auto mb-4" src="{{ url_for('static',filename='img/logo.png') }}"
+             alt="" width="200" height="200">
+        <h2>CKT.SAM</h2>
+        <p class="lead">This programme is a seat arrangement manager for CKT UTAS</p>
+    </div>
+    {% if errors %}
+        <div class="d-print-none alert alert-danger">
+            <p class="text-danger">Errors: </p>
+            {% for error in errors %}
+                <p class="text-danger">{{ loop.index }}. {{ errors }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="row d-print-none">
+        <div class="col-md-12 order-md-1">
+
+            <form action="{{ url_for('index') }}" class="needs-validation" method="post" enctype="multipart/form-data">
+                <h4 class="mb-3 text-muted">Hall Details</h4>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="rows">Rows</label>
+                        <input name="rows" type="number" required class="form-control" id="rows" placeholder=""
+                               value="">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="rows">Name Of Hall</label>
+                        <input name="hall_name" type="text" required class="form-control" placeholder="">
+                    </div>
+                </div>
+
+                <h4 class="mb-3 text-muted">Students - Courses</h4>
+                <hr class="mb-4">
+
+                <h5>UPLOAD 1</h5>
+
+                <div>
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="a_course_1" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Upload Cols (A)</h6>
+                        <input name="a_students_1" type="file">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="b_course_1" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <h6>Upload Cols (B)</h6>
+                        <input name="b_students_1" type="file">
+                    </div>
+                </div>
+
+                <hr>
+                <h5>UPLOAD 2</h5>
+                <div>
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="a_courses_2" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Upload Cols (A)</h6>
+                        <input name="a_students_2" type="file">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="b_courses_2" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Upload Cols (B)</h6>
+                        <input name="b_students_2" type="file">
+                    </div>
+
+                </div>
+                <hr>
+                <h5>UPLOAD 3</h5>
+                <div>
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="a_courses_3" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+                    <div class="mb-3">
+                        <h6>Upload Cols (A)</h6>
+                        <input name="a_students_3" type="file">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="courses">Course</label>
+                        <input name="b_courses_3" type="text" class="form-control" id="cols" placeholder="" value="">
+                    </div>
+
+                    <div class="mb-3">
+                        <h6>Upload Cols (B)</h6>
+                        <input name="b_students_3" type="file">
+                    </div>
+
+                </div>
+                <div class="">
+                    <button class="btn btn-primary btn-lg " type="submit">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="report card card">
+        <div class="card-body">
+
+            {% if data %}
+                <div id="seating_report">
+                    <button onclick="print()" class="d-print-none btn btn-primary btn-sm">Print</button>
+                    <button id="export" class="d-print-none btn btn-primary btn-sm">Export</button>
+                    <div class="text-center">
+                        <img class="d-block mx-auto mb-1" src="{{ url_for('static',filename='img/logo.png') }}"
+                             alt="" width="100" height="100">
+                        <h4>CKT - SEAT ARRANGEMENT MANAGER </h4>
+                        <h5>{{ request.form.get('hall_name') }}</h5>
+                        <h5>Courses : {{ ", ".join(halls.courses)  |upper if halls.courses else '' }}</h5>
+                    </div>
+                    <div class="table-responsive">
+
+                        <table id="table_seating" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Seat No</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% set total_db =  data.get('a') + data.get("b") %}
+                            {% set counter ={'total':0} %}
+                            {% for a_s in total_db %}
+                                {% for seat in a_s %}
+                                    <tr>
+                                        {% if counter.update({'total':counter.get('total')+ 1}) %}{% endif %}
+                                        <td>{{ counter.get('total') }}</td>
+                                        <td>{{ seat.student.student_id }}</td>
+                                        <td>{{ seat.student.student_name }}</td>
+                                        <td><b>{{ seat.descriptor }}</b></td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="d-print-none">
+
+                    <hr>
+                    <h4>Signing Sheets</h4>
+                    <hr>
+                </div>
+                {% if selector %}
+                    {% for d in  selector %}
+                        {% if selector.get(d) %}
+                            <div id="signing_{{ d }}" class="d-print-none">
+                                <button id="btn_{{ d }}" class="d-print-none btn btn-primary">Export XLS</button>
+                                <button id="btn_{{ d }}_pdf" class="d-print-none btn btn-outline-info">PDF</button>
+                                <button id="btn_{{ d }}_optional" class="d-print-none btn btn-outline-info">Remove
+                                    Optional
+                                </button>
+                                <div class="text-center">
+                                    <img class="d-block mx-auto mb-1"
+                                         src="{{ url_for('static',filename='img/logo.png') }}"
+                                         alt="" width="100" height="100">
+                                    <h4>CKT - SEAT ARRANGEMENT MANAGER </h4>
+                                    <h5 class="override">SIGNING SHEET </h5>
+                                    <h5>{{ request.form.get('hall_name') }}</h5>
+                                    <h5>COURSE : {{ request.form.get(d)|upper }}</h5>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="{{ d }}" class="table table-bordered">
+                                        <thead>
+                                        <tr class="text-uppercase">
+                                            <th>S/N</th>
+                                            <th>Student ID</th>
+                                            <th>Student Name</th>
+                                            <th>Programme</th>
+                                            <th>Seat No</th>
+                                            <th class="override">Booklet Serial No.</th>
+                                            <th class="override">Signature</th>
+                                            <th class="override">Remarks</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% set counter ={'total':0} %}
+                                        {% for i in selector.get(d) %}
+
+                                            {% for a_s in total_db %}
+                                                {% for seat in a_s %}
+                                                    {% if i.student_id==seat.student.student_id %}
+                                                        <tr>
+                                                            {% if counter.update({'total':counter.get('total')+ 1}) %}{% endif %}
+                                                            <td>{{ counter.get('total') }}</td>
+                                                            <td>{{ seat.student.student_id }}</td>
+                                                            <td>{{ seat.student.student_name }}</td>
+                                                            <td>{{ seat.student.programme }}</td>
+                                                            <td><b>{{ seat.descriptor }}</b></td>
+                                                            <td class="override"></td>
+                                                            <td class="override"></td>
+                                                            <td class="override"></td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <div class="override row text-center  pt-4">
+                                    <div class=" col-md-4">
+                                        <p>INVIGILATOR NAME :.........................</p>
+                                    </div>
+                                    <div class=" col-md-4">
+                                        <p>INVIGILATOR SIGNATURE:.........................</p>
+                                    </div>
+
+                                    <div class=" col-md-4">
+                                        <p>DATE:..........................</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $("#btn_{{ d }}").click(() => {
+                                    $("#{{ d }}").tableExport({
+                                        headers: true,
+                                        filename: '{{ request.form.get(d).replace(" ","-") }}',
+                                        escape: 'false',
+                                        type: 'xls'
+                                    });
+                                })
+                                $("#btn_{{ d }}_optional").click(() => {
+                                    $("#seating_report").addClass("d-print-none")
+                                    $("#signing_{{ d }}").removeClass("d-print-none")
+                                    $(".override").addClass("d-none")
+
+                                    print()
+                                    $(".override").removeClass("d-none")
+                                    $("#signing_{{ d }}").addClass("d-print-none")
+                                    $("#seating_report").removeClass("d-print-none")
+                                })
+
+                                $("#btn_{{ d }}_pdf").click(() => {
+                                    $("#seating_report").addClass("d-print-none")
+                                    $("#signing_{{ d }}").removeClass("d-print-none")
+                                    print()
+                                    $("#signing_{{ d }}").addClass("d-print-none")
+                                    $("#seating_report").removeClass("d-print-none")
+                                })
+                            </script>
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+<footer class="pt-5 text-center text-muted text-small">
+    <div class="row">
+        <div class="col-md-6"><p>{{ date.utcnow().strftime("%d %B %Y, %H:%M:%S" ) }}</p></div>
+        <div class="col-md-6"><p class="mb-1">&copy; CKT-SAM (EXAMS OFFICE)</p></div>
+    </div>
+</footer>
+
+<script>
+    $(function () {
+        $("#export").click(() => {
+            $("#table_seating").tableExport({
+                headers: true,
+                escape: 'false',
+                type: 'xls'
+            });
+        })
+        $("#export_pdf").click(() => {
+            $("#table_seating").tableExport({
+                headers: true,
+                escape: 'false',
+                type: 'pdf'
+            });
+        })
+    })
+</script>
+</body>
+</html>
