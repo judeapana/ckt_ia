@@ -1,5 +1,12 @@
 import string
+from enum import Enum
 from pprint import pprint
+
+
+class FormatEnum(Enum):
+    NORMAL = 0
+    EVEN = 1
+    ODD = 2
 
 
 class Hall:
@@ -36,10 +43,18 @@ class SeatAssigner:
     def available_seats(self):
         return len(self._blueprint)
 
-    def blueprint(self):
+    def blueprint(self, _format=FormatEnum.NORMAL.value):
         for row in range(1, self.hall.rows + 1):
+            if _format == FormatEnum.ODD.value:
+                if row % 2 == 0:
+                    continue
+            if _format == FormatEnum.EVEN.value:
+                if row % 2 != 0:
+                    continue
+
             for col in self.hall.cols:
                 self._blueprint.append(Seat(col=col, row=row))
+
         return self._blueprint
 
     def placement(self, col, students):

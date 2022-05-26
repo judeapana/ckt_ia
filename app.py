@@ -1,6 +1,5 @@
 from collections import namedtuple
 from datetime import datetime
-from pprint import pprint
 
 import flask_excel
 from flask import Flask, render_template, request
@@ -29,7 +28,7 @@ def index():
         b_courses_2 = request.form['b_courses_2']
         a_course_3 = request.form['a_courses_3']
         b_course_3 = request.form['b_courses_3']
-
+        _format = int(request.form['formation'])
         selector = {'a_course_1': [], 'b_course_1': [], 'a_courses_2': [], 'b_courses_2': [], 'a_courses_3': [],
                     'b_courses_3': []}
 
@@ -118,7 +117,7 @@ def index():
                     courses=list(filter(lambda x: x != "",
                                         [a_course_1, b_course_1, a_courses_2, b_courses_2, a_course_3, b_course_3])))
         seat_arranger = SeatAssigner(hall)
-        seat_arranger.blueprint()
+        seat_arranger.blueprint(_format)
         leftover = None
         # df = 0
         length_of_least = 0
@@ -147,6 +146,7 @@ def index():
             data.get('b').append(seat_arranger.placement("B", all_b_s[0:length_of_least] + b))
             # data.get('a').append(seat_arranger.placement("A", ))
             # data.get('b').append(seat_arranger.placement("B", b))
+
     return render_template("index.html", data=data, halls=hall, errors=errors, date=date, selector=selector)
 
 

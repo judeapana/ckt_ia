@@ -5,12 +5,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CKT S.A.M</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='dist/bootstrap/css/bootstrap.css') }}">
     <script src="{{ url_for('static',filename='vue.js') }}"></script>
     <script src="{{ url_for('static',filename='dist/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='dist/js/popper.js') }}"></script>
-    <script src="{{ url_for('static',filename='dist/js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static',filename='dist/bootstrap/js/bootstrap.js') }}"></script>
     <script type="text/javascript"
             src="{{ url_for('static',filename='export-table/libs/FileSaver/FileSaver.min.js') }}"></script>
 
@@ -30,13 +29,23 @@
 
 <body class="bg-light">
 
-<div class="container" id="app">
-    <div class="py-5 d-print-none text-center">
-        <img class="d-block mx-auto mb-4" src="{{ url_for('static',filename='img/logo.png') }}"
-             alt="" width="200" height="200">
-        <h2>CKT.SAM</h2>
-        <p class="lead">This programme is a seat arrangement manager for CKT UTAS</p>
+<div class="container-fluid" id="app">
+    <div class="d-print-none px-2 py-5 my-2 text-center">
+        <img class="d-block mx-auto mb-4" width="200" height="200" src="{{ url_for('static',filename='img/logo.png') }}"
+             alt="logo">
+        <h1 class="display-5 fw-bold">C. K. Tedam (CKT-UTAS)</h1>
+        <h1 class="display-6 fw-bold">SEAT ARRANGEMENT MANAGER - V.2.0</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">This programme is a seat arrangement manager for CKT UTAS</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+
+                <button onclick="window.location.href='https://github.com/judeapana/ckt_ia'" type="button"
+                        class="btn btn-primary btn-lg px-4 gap-3">More Info
+                </button>
+            </div>
+        </div>
     </div>
+
     {% if errors %}
         <div class="d-print-none alert alert-danger">
             <p class="text-danger">Errors: </p>
@@ -48,99 +57,166 @@
     <div class="row d-print-none">
         <div class="col-md-12 order-md-1">
 
+
             <form action="{{ url_for('index') }}" class="needs-validation" method="post" enctype="multipart/form-data">
-                <h4 class="mb-3 text-muted">Hall Details</h4>
-                <hr/>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="rows">Rows</label>
-                        <input name="rows" type="number" required class="form-control" id="rows" placeholder=""
-                               value="">
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="rows">Name Of Hall</label>
-                        <input name="hall_name" type="text" required class="form-control" placeholder="">
-                    </div>
-                </div>
-
-                <h4 class="mb-3 text-muted">Students - Courses</h4>
-                <hr class="mb-4">
-
-                <h5>UPLOAD 1</h5>
-
-                <div>
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="a_course_1" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
-
-                    <div class="mb-3">
-                        <h6>Upload Cols (A)</h6>
-                        <input name="a_students_1" type="file">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="b_course_1" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <h6>Upload Cols (B)</h6>
-                        <input name="b_students_1" type="file">
+                <div class="card shadow-sm">
+                    <div class="card-header">Hall Details</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="rows">Rows</label>
+                                <input name="rows" type="number" required class="form-control" id="rows" placeholder=""
+                                       value="">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="rows">Name Of Hall</label>
+                                <input name="hall_name" type="text" required class="form-control" placeholder="">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="rows">Formation</label>
+                                <select class="form-control" name="formation" id="formation">
+                                    <option value="0">Normal</option>
+                                    <option value="1">Even</option>
+                                    <option value="2">Odd</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <hr>
-                <h5>UPLOAD 2</h5>
-                <div>
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="a_courses_2" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
+                <div class="card mt-4 shadow-sm">
+                    <div class="card-header">Upload Section</div>
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>UPLOAD 1</td>
+                                <td>
+                                    <div class="p-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="a_course_1" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (A)</h6>
+                                                    <input name="a_students_1" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="b_course_1" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (B)</h6>
+                                                    <input name="b_students_1" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UPLOAD 2</td>
+                                <td>
+                                    <div class="p-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="a_courses_2" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
 
-                    <div class="mb-3">
-                        <h6>Upload Cols (A)</h6>
-                        <input name="a_students_2" type="file">
-                    </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (A)</h6>
+                                                    <input name="a_students_2" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="b_courses_2" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
 
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="b_courses_2" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
+                                            <div class="col-md-6">
 
-                    <div class="mb-3">
-                        <h6>Upload Cols (B)</h6>
-                        <input name="b_students_2" type="file">
-                    </div>
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (B)</h6>
+                                                    <input name="b_students_2" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UPLOAD 3</td>
+                                <td>
+                                    <div class="p-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="a_courses_3" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (A)</h6>
+                                                    <input name="a_students_3" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="courses">Course</label>
+                                                    <input name="b_courses_3" type="text" class="form-control" id="cols"
+                                                           placeholder=""
+                                                           value="">
+                                                </div>
+                                            </div>
 
+                                            <div class="col-md-6">
+
+                                                <div class="mb-3">
+                                                    <h6>Upload Cols (B)</h6>
+                                                    <input name="b_students_3" type="file">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="">
+                            <button class="btn btn-primary btn-sm " type="submit">Generate</button>
+                        </div>
+                    </div>
                 </div>
-                <hr>
-                <h5>UPLOAD 3</h5>
-                <div>
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="a_courses_3" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
-                    <div class="mb-3">
-                        <h6>Upload Cols (A)</h6>
-                        <input name="a_students_3" type="file">
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="courses">Course</label>
-                        <input name="b_courses_3" type="text" class="form-control" id="cols" placeholder="" value="">
-                    </div>
 
-                    <div class="mb-3">
-                        <h6>Upload Cols (B)</h6>
-                        <input name="b_students_3" type="file">
-                    </div>
-
-                </div>
-                <div class="">
-                    <button class="btn btn-primary btn-lg " type="submit">Generate</button>
-                </div>
             </form>
         </div>
     </div>
