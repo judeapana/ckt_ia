@@ -1,1 +1,2 @@
-python app.py
+call venv\\Scripts\\activate
+call python app.py
