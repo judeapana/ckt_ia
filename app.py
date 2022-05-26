@@ -28,9 +28,14 @@ def index():
         b_courses_2 = request.form['b_courses_2']
         a_course_3 = request.form['a_courses_3']
         b_course_3 = request.form['b_courses_3']
+        a_course_4 = request.form['a_courses_4']
+        b_course_4 = request.form['b_courses_4']
+        a_course_5 = request.form['a_courses_5']
+        b_course_5 = request.form['b_courses_5']
+
         _format = int(request.form['formation'])
         selector = {'a_course_1': [], 'b_course_1': [], 'a_courses_2': [], 'b_courses_2': [], 'a_courses_3': [],
-                    'b_courses_3': []}
+                    'b_courses_3': [], 'a_courses_4': [], 'b_courses_4': [], 'a_courses_5': [], 'b_courses_5': []}
 
         all_a_s = []
         all_b_s = []
@@ -112,10 +117,34 @@ def index():
                     all_b_s.append(schema)
             except Exception as e:
                 errors.append(e.__str__())
+        b_students_4 = request.files['b_students_4']
+        if b_students_4:
+            try:
+                dataset = request.get_array(field_name='b_students_4')
+                prepare = namedtuple('students', [col.strip().replace(" ", "_").lower() for col in dataset[0]])
+                dataset.pop(0)
+                for item in dataset:
+                    schema = prepare._make(item)
+                    selector.get('b_courses_4').append(schema)
+                    all_b_s.append(schema)
+            except Exception as e:
+                errors.append(e.__str__())
+        b_students_5 = request.files['b_students_5']
+        if b_students_5:
+            try:
+                dataset = request.get_array(field_name='b_students_5')
+                prepare = namedtuple('students', [col.strip().replace(" ", "_").lower() for col in dataset[0]])
+                dataset.pop(0)
+                for item in dataset:
+                    schema = prepare._make(item)
+                    selector.get('b_courses_5').append(schema)
+                    all_b_s.append(schema)
+            except Exception as e:
+                errors.append(e.__str__())
 
         hall = Hall(rows=int(rows), cols=2,
                     courses=list(filter(lambda x: x != "",
-                                        [a_course_1, b_course_1, a_courses_2, b_courses_2, a_course_3, b_course_3])))
+                                        [a_course_1, b_course_1, a_courses_2, b_courses_2, a_course_3, b_course_3, a_course_4, b_course_4, a_course_5, b_course_5])))
         seat_arranger = SeatAssigner(hall)
         seat_arranger.blueprint(_format)
         leftover = None
@@ -142,10 +171,10 @@ def index():
                     a.append(leftover[i])
                 else:
                     b.append(leftover[i])
-            data.get('a').append(seat_arranger.placement("A", all_a_s[0:length_of_least] + a))
-            data.get('b').append(seat_arranger.placement("B", all_b_s[0:length_of_least] + b))
-            # data.get('a').append(seat_arranger.placement("A", ))
-            # data.get('b').append(seat_arranger.placement("B", b))
+            # data.get('a').append(seat_arranger.placement("A", all_a_s[0:length_of_least] + a))
+            # data.get('b').append(seat_arranger.placement("B", all_b_s[0:length_of_least] + b))
+            data.get('a').append(seat_arranger.placement("A", all_a_s[0:length_of_least] + a + b))
+            data.get('b').append(seat_arranger.placement("B", all_b_s[0:length_of_least]))
 
     return render_template("index.html", data=data, halls=hall, errors=errors, date=date, selector=selector)
 
