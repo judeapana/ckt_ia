@@ -34,7 +34,7 @@
         <img class="d-block mx-auto mb-4" width="200" height="200" src="{{ url_for('static',filename='img/logo.png') }}"
              alt="logo">
         <h1 class="display-5 fw-bold">C. K. Tedam (CKT-UTAS)</h1>
-        <h1 class="display-6 fw-bold">SEAT ARRANGEMENT MANAGER - V2.1.0</h1>
+        <h1 class="display-6 fw-bold">SEAT ARRANGEMENT MANAGER - V2.1.1</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">This programme is a seat arrangement manager for CKT UTAS</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -374,7 +374,7 @@
                                             <th>Student ID</th>
                                             <th>Student Name</th>
                                             <th>Programme</th>
-                                            <th>Assessment Report</th>
+                                            <th>Assessment Status</th>
                                             <th>Seat No</th>
                                             <th class="override">Booklet Serial No.</th>
                                             <th class="override">Signature</th>
@@ -394,7 +394,7 @@
                                                             <td>{{ seat.student.student_id }}</td>
                                                             <td>{{ seat.student.student_name }}</td>
                                                             <td>{{ seat.student.programme }}</td>
-                                                            <td>{{ seat.student.assessment_report }}</td>
+                                                            <td>{{ seat.student.assessment_report or  seat.student.assessment_status or ''}}</td>
                                                             <td><b>{{ seat.descriptor }}</b></td>
                                                             <td class="override"></td>
                                                             <td class="override"></td>
